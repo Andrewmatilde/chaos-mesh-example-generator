@@ -1,0 +1,39 @@
+{%import "github.com/iancoleman/strcase"%}
+
+{%func ChaosType(name string) %}
+package v1alpha1
+
+import (
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+)
+
+// +kubebuilder:object:root=true
+
+// {%v strcase.ToCamel(name)%}Chaos is the Schema for the {%v strcase.ToCamel(name)%}chaos API
+type {%v strcase.ToCamel(name)%}Chaos struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+}
+
+func (h {%v strcase.ToCamel(name)%}Chaos) DeepCopyObject() runtime.Object {
+	panic("implement me")
+}
+
+// +kubebuilder:object:root=true
+
+// {%v strcase.ToCamel(name)%}ChaosList contains a list of {%v strcase.ToCamel(name)%}Chaos
+type {%v strcase.ToCamel(name)%}ChaosList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []{%v strcase.ToCamel(name)%}Chaos `json:"items"`
+}
+
+func (h {%v strcase.ToCamel(name)%}ChaosList) DeepCopyObject() runtime.Object {
+	panic("implement me")
+}
+
+func init() {
+	SchemeBuilder.Register(&{%v strcase.ToCamel(name)%}Chaos{}, &{%v strcase.ToCamel(name)%}ChaosList{})
+}
+{% endfunc %}

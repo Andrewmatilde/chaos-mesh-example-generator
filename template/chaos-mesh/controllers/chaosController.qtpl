@@ -1,0 +1,40 @@
+{%import "github.com/iancoleman/strcase"%}
+
+{%func ChaosContoller(name string) %}
+
+package controllers
+
+import (
+	"github.com/go-logr/logr"
+
+	chaosmeshv1alpha1 "github.com/chaos-mesh/chaos-mesh/api/v1alpha1"
+
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+)
+
+// {%v strcase.ToCamel(name)%}ChaosReconciler reconciles a{%v strcase.ToCamel(name)%}Chaos object
+type {%v strcase.ToCamel(name)%}ChaosReconciler struct {
+	client.Client
+	Log logr.Logger
+}
+
+// +kubebuilder:rbac:groups=chaos-mesh.org,resources={%v strcase.ToDelimited(name,0)%}chaos,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=chaos-mesh.org,resources={%v strcase.ToDelimited(name,0)%}chaos/status,verbs=get;update;patch
+
+func (r *{%v strcase.ToCamel(name)%}ChaosReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
+	logger := r.Log.WithValues("reconciler", "{%v strcase.ToDelimited(name,0)%}chaos")
+
+	//  the main logic of `{%v strcase.ToCamel(name)%}Chaos`, it prints a log `Hello World!` and returns nothing.
+	logger.Info("Hello World!")
+
+	return ctrl.Result{}, nil
+}
+
+func (r *{%v strcase.ToCamel(name)%}ChaosReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		//exports `{%v strcase.ToCamel(name)%}Chaos` object, which represents the yaml schema content the user applies.
+		For(&chaosmeshv1alpha1.{%v strcase.ToCamel(name)%}Chaos{}).
+		Complete(r)
+}
+{% endfunc %}
