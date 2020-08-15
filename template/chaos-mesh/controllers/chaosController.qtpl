@@ -1,5 +1,5 @@
 {%import "github.com/iancoleman/strcase"%}
-
+{%import "strings"%}
 {%func ChaosContoller(name string) %}
 
 package controllers
@@ -19,11 +19,11 @@ type {%v strcase.ToCamel(name)%}ChaosReconciler struct {
 	Log logr.Logger
 }
 
-// +kubebuilder:rbac:groups=chaos-mesh.org,resources={%v strcase.ToDelimited(name,0)%}chaos,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=chaos-mesh.org,resources={%v strcase.ToDelimited(name,0)%}chaos/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=chaos-mesh.org,resources={%v strings.ToLower(name)%}chaos,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=chaos-mesh.org,resources={%v strings.ToLower(name)%}chaos/status,verbs=get;update;patch
 
 func (r *{%v strcase.ToCamel(name)%}ChaosReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	logger := r.Log.WithValues("reconciler", "{%v strcase.ToDelimited(name,0)%}chaos")
+	logger := r.Log.WithValues("reconciler", "{%v strings.ToLower(name)%}chaos")
 
 	//  the main logic of `{%v strcase.ToCamel(name)%}Chaos`, it prints a log `Hello World!` and returns nothing.
 	logger.Info("Hello World!")

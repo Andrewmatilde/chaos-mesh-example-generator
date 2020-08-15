@@ -1,5 +1,4 @@
-{%import "github.com/iancoleman/strcase"%}
-
+{%import "strings"%}
 {%func ControllerManagerRbacYaml(name string) %}
 {{- if .Values.rbac.create }}
 kind: ServiceAccount
@@ -83,7 +82,7 @@ rules:
     - timechaos
     - kernelchaos
     - stresschaos
-    - {%v strcase.ToDelimited(name,0)%}chaos
+    - {%v strings.ToLower(name)%}chaos
   verbs: ["*"]
 ---
 kind: ClusterRoleBinding
@@ -150,7 +149,7 @@ rules:
   - timechaos
   - kernelchaos
   - stresschaos
-  - {%v strcase.ToDelimited(name,0)%}chaos
+  - {%v strings.ToLower(name)%}chaos
   verbs: ["*"]
 ---
 kind: RoleBinding
